@@ -23,3 +23,5 @@ set_target_properties(oclinfo PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINA
 # when running g++ these will be included as -I/directory/path/
 target_include_directories(oclinfo PRIVATE ${PROJECT_SOURCE_DIR}/include)
 target_link_libraries (oclinfo ${OpenCL_LIBRARY})
+
+install (TARGETS oclinfo RUNTIME DESTINATION bin)

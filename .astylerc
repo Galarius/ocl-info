@@ -1,6 +1,6 @@
 # AStyle Options file
 # Installation: brew install astyle (macOS)
-# Run command: astyle --options=.astylerc -n source/*.cpp include/*.hpp kernel/*.cl
+# Run command: astyle --options=.astylerc -n *.c *.h
 # braces
 --style=kr
 # indent

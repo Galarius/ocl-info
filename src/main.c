@@ -46,10 +46,12 @@ cl_uint available_platforms()
 cl_uint platforms(cl_platform_id **platforms)
 {
 	cl_uint num_platforms = available_platforms();
+
 	if(num_platforms) {
 		*platforms = malloc(sizeof(cl_platform_id) * num_platforms);
 		clGetPlatformIDs(num_platforms, *platforms, NULL);
 	}
+
 	return num_platforms;
 }
 
@@ -105,6 +107,7 @@ cl_uint devices(cl_platform_id platform, cl_device_id **devices)
 		*devices = malloc(sizeof(cl_device_id) * num_devices);
 		clGetDeviceIDs(platform, CL_DEVICE_TYPE_ALL, num_devices, *devices, NULL);
 	}
+
 	return num_devices;
 }
 
@@ -473,8 +476,8 @@ int main(int argc, char *argv[])
 			}
 
 			if(mode == mode_device_count ||
-			   mode == mode_platform_info_device_count || 
-			   mode == mode_full_info) {
+			        mode == mode_platform_info_device_count ||
+			        mode == mode_full_info) {
 				cl_uint num_devices = available_devices(p_ids[i]);
 				printf("\t Device(s): %u\n", num_devices);
 			}
@@ -483,8 +486,7 @@ int main(int argc, char *argv[])
 				cl_device_id *d_ids;
 				cl_uint num_devices = devices(p_ids[i], &d_ids);
 
-				if(!num_devices)
-				{
+				if(!num_devices) {
 					fprintf(stderr, "No OpenCL devices found!\n");
 					exit(EXIT_SUCCESS);
 				}

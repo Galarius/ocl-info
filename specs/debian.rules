@@ -1,0 +1,20 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+# Uncomment this to turn on verbose mode.
+export DH_VERBOSE=1
+
+ifeq ($(shell dpkg-vendor --derives-from Ubuntu && echo yes),yes)
+	sudo apt-get update
+	sudo apt-get install ocl-icd-dev libegl1-mesa-dev ocl-icd-opencl-dev
+endif
+
+%:
+	dh $@ 
+
+#override_dh_clean:
+#	dh_clean
+#	rm -f debian/oclinfo.1
+    
+#override_dh_auto_build:
+#	dh_auto_build

@@ -10,12 +10,12 @@ Created for [OpenCL Extension for VS Code](https://marketplace.visualstudio.com/
 
 * cmake
 
-## How to install
+## How to build
 
 ```
 mkdir build && cd build
 cmake ..
-make && make install
+make
 ```
 
 ## How to use

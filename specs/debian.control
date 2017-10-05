@@ -1,0 +1,12 @@
+Source: oclinfo
+Section: SystemUtilities
+Priority: optional
+Maintainer: galarius 
+Build-Depends: debhelper (>= 8.0.0), ocl-icd-opencl-dev
+
+Package: oclinfo
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Display OpenCL info
+ Command-line tool to display information about available 
+ OpenCL platforms and devices.

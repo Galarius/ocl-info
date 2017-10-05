@@ -473,9 +473,10 @@ int main(int argc, char *argv[])
 			}
 
 			if(mode == mode_device_count ||
-			        mode == mode_platform_info_device_count) {
+			   mode == mode_platform_info_device_count || 
+			   mode == mode_full_info) {
 				cl_uint num_devices = available_devices(p_ids[i]);
-				printf("\tDevice(s): %u\n", num_devices);
+				printf("\t Device(s): %u\n", num_devices);
 			}
 
 			if(mode == mode_full_info) {

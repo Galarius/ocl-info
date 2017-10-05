@@ -1,18 +1,29 @@
 language: c
-os: 
-  - osx
-  - linux
+os:
+- osx
+- linux
 compiler:
-  - gcc
-  - clang
+- gcc
+- clang
 addons:
   apt:
     packages:
-      - ocl-icd-opencl-dev
+    - ocl-icd-opencl-dev
 install: true
-script: 
-  - mkdir build && cd build
-  - cmake -G "Unix Makefiles" ..
-  - make
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo make install; else make install; fi
-  - oclinfo -pds
+script:
+- mkdir build && cd build
+- cmake -G "Unix Makefiles" ..
+- make
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo make install; else make install;
+  fi
+- oclinfo -pds
+deploy:
+  provider: releases
+  api_key:
+    secure: Q6ukuvK2zn0xyHeT/Mzua5aoI8mNEUdHZIKs34Jts/IQntlUqEJZ9vx3aEOFSKlsRjhUKDxxPDC6Zt0oshL+8YExLDQP713xWVcGCc8CVKgeL2rl7kiMXoi3DK5pAQlTxdBiLiO55woYIa76/eHeTf1GxsfEQ7zud9/W7GPLlp4bHHyhscaiDiCtGrmUVFNjxgHsif9PCWJGgB31aLD7ZViTbri285jcxBYsTKsjEt81/uLXvj4d1AtlnwMTfXh4Z+Bm6tYrshCkqIQVJDTMd7T+1wxqsrLMs+gqdrZgsJFbjac7UPShtHuZFvQc7pMnN0WBJ/yReTOO3cq/BzgdY4NQs4ozhvhM/phM0js90sENQL0mq3cvOkeiy7T69hlW4f9sWk9IP2YzO0uwEvaoU4NCN75ERl5CVEDmZU/h2PhWLUfaBRK3Dyesc+/I4yujEoTTcNVchvWnxyiSZxk30UtvS7iOg6UiA9uWbjgljCE0Yg2A1iGTUYrK7wam+Mxghhtgsn0s+F0Wf5vzeLe5pTk117khfSPdqlcv7i9gOiCnhnJXaJaofvfwGG0g77IrbF8/1MPp75fLMdlH7YwU3cetix4sIHmQCsOClZZZsUahVy7x+bE9OIhaxTrt2HBIHanGi0drAoM2Co4AhVJUYynXSgjCtCygdRGwLe5Ty7E=
+  file: oclinfo
+  skip_cleanup: true
+  overwrite: true
+  on:
+    repo: Galarius/ocl-info
+    tags: true

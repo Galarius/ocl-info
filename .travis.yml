@@ -9,12 +9,10 @@ addons:
   apt:
     packages:
       - ocl-icd-opencl-dev
-before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt update; fi
 install: true
 script: 
   - mkdir build && cd build
   - cmake -G "Unix Makefiles" ..
   - make
-  - make install
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo make install; else make install; fi
   - oclinfo -pds

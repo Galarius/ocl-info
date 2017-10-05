@@ -7,7 +7,7 @@ include_directories(${OpenCL_INCLUDE_DIRS})
 link_directories(${OpenCL_LIBRARY})
 
 IF(OpenCL_FOUND)
-    # Print the list of known compile features for this version of CMake
+    set(CMAKE_C_FLAGS "-std=c90")
     message ("C Flags:" ${CMAKE_C_FLAGS})
     message("List of compile features: ${CMAKE_C_COMPILE_FEATURES}")
 

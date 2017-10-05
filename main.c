@@ -76,11 +76,13 @@ void platform_info(cl_platform_id platform, int use_cl_names)
 
 	for(cl_uint i = 0; i < count_platform_info; ++i) {
 		platform_field(platform, fields_platform_info[order_platform_info[i]], &info);
+
 		if(use_cl_names) {
 			printf("\t %s: %s\n", cl_names_platform_info[order_platform_info[i]], info);
 		} else {
 			printf("\t %s: %s\n", names_platform_info[order_platform_info[i]], info);
 		}
+
 		free(info);
 	}
 }
@@ -211,16 +213,19 @@ void device_info(cl_device_id device, int use_cl_names)
 			case t_uint: {
 					cl_uint info;
 					clGetDeviceInfo(device, fields_device_info[order_device_info[i]], sizeof(cl_uint), &info, NULL);
+
 					if(use_cl_names) {
 						printf("\t\t %s: %u\n", cl_names_device_info[order_device_info[i]], info);
 					} else {
 						printf("\t\t %s: %u\n", names_device_info[order_device_info[i]], info);
 					}
+
 					break;
 				}
 
 			case t_bool: {
 					char *info;
+
 					if(use_cl_names) {
 						info_enum_field(device, fields_device_info[order_device_info[i]], fields_cl_bool, cl_names_cl_bool, count_cl_bool, &info);
 						printf("\t\t %s: %s\n", cl_names_device_info[order_device_info[i]], info);
@@ -228,12 +233,14 @@ void device_info(cl_device_id device, int use_cl_names)
 						info_enum_field(device, fields_device_info[order_device_info[i]], fields_cl_bool, names_cl_bool, count_cl_bool, &info);
 						printf("\t\t %s: %s\n", names_device_info[order_device_info[i]], info);
 					}
+
 					free(info);
 					break;
 				}
 
 			case t_device_fp_config: {
 					char *info;
+
 					if(use_cl_names) {
 						info_bitwise_field(device, fields_device_info[order_device_info[i]], fields_cl_device_fp_config, cl_names_cl_device_fp_config, count_cl_device_fp_config, sizeof(cl_device_fp_config), &info);
 						printf("\t\t %s: %s\n", cl_names_device_info[order_device_info[i]], info);
@@ -241,12 +248,14 @@ void device_info(cl_device_id device, int use_cl_names)
 						info_bitwise_field(device, fields_device_info[order_device_info[i]], fields_cl_device_fp_config, names_cl_device_fp_config, count_cl_device_fp_config, sizeof(cl_device_fp_config), &info);
 						printf("\t\t %s: %s\n", names_device_info[order_device_info[i]], info);
 					}
+
 					free(info);
 					break;
 				}
 
 			case t_device_exec_capabilities: {
 					char *info;
+
 					if(use_cl_names) {
 						info_bitwise_field(device, fields_device_info[order_device_info[i]], fields_cl_device_exec_capabilities, cl_names_cl_device_exec_capabilities, count_cl_device_exec_capabilities, sizeof(cl_device_exec_capabilities), &info);
 						printf("\t\t %s: %s\n", cl_names_device_info[order_device_info[i]], info);
@@ -254,6 +263,7 @@ void device_info(cl_device_id device, int use_cl_names)
 						info_bitwise_field(device, fields_device_info[order_device_info[i]], fields_cl_device_exec_capabilities, names_cl_device_exec_capabilities, count_cl_device_exec_capabilities, sizeof(cl_device_exec_capabilities), &info);
 						printf("\t\t %s: %s\n", names_device_info[order_device_info[i]], info);
 					}
+
 					free(info);
 					break;
 				}
@@ -261,11 +271,13 @@ void device_info(cl_device_id device, int use_cl_names)
 			case t_char: {
 					char *info;
 					device_info_char(device, fields_device_info[order_device_info[i]], &info);
+
 					if(use_cl_names) {
 						printf("\t\t %s: %s\n", cl_names_device_info[order_device_info[i]], info);
 					} else {
 						printf("\t\t %s: %s\n", names_device_info[order_device_info[i]], info);
 					}
+
 					free(info);
 					break;
 				}
@@ -273,23 +285,27 @@ void device_info(cl_device_id device, int use_cl_names)
 			case t_ulong: {
 					cl_ulong info;
 					clGetDeviceInfo(device, fields_device_info[order_device_info[i]], sizeof(cl_ulong), &info, NULL);
+
 					if(use_cl_names) {
 						printf("\t\t %s: %llu\n", cl_names_device_info[order_device_info[i]], info);
 					} else {
-						printf("\t\t %s: %llu\n", names_device_info[order_device_info[i]], info);	
+						printf("\t\t %s: %llu\n", names_device_info[order_device_info[i]], info);
 					}
+
 					break;
 				}
 
 			case t_device_mem_cache_type: {
 					char *info;
+
 					if(use_cl_names) {
 						info_enum_field(device, fields_device_info[order_device_info[i]], fields_cl_device_mem_cache_type, cl_names_cl_device_mem_cache_type, count_cl_device_mem_cache_type, &info);
 						printf("\t\t %s: %s\n", cl_names_device_info[order_device_info[i]], info);
 					} else {
 						info_enum_field(device, fields_device_info[order_device_info[i]], fields_cl_device_mem_cache_type, names_cl_device_mem_cache_type, count_cl_device_mem_cache_type, &info);
-						printf("\t\t %s: %s\n", names_device_info[order_device_info[i]], info);	
+						printf("\t\t %s: %s\n", names_device_info[order_device_info[i]], info);
 					}
+
 					free(info);
 					break;
 				}
@@ -297,11 +313,13 @@ void device_info(cl_device_id device, int use_cl_names)
 			case t_size_t: {
 					size_t info;
 					clGetDeviceInfo(device, fields_device_info[order_device_info[i]], sizeof(size_t), &info, NULL);
+
 					if(use_cl_names) {
 						printf("\t\t %s: %zu\n", cl_names_device_info[order_device_info[i]], info);
 					} else {
-						printf("\t\t %s: %zu\n", names_device_info[order_device_info[i]], info);	
+						printf("\t\t %s: %zu\n", names_device_info[order_device_info[i]], info);
 					}
+
 					break;
 				}
 
@@ -310,50 +328,58 @@ void device_info(cl_device_id device, int use_cl_names)
 					cl_uint n;
 					clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_ITEM_DIMENSIONS, sizeof(cl_uint), &n, NULL);
 					device_info_size_t_array(device, fields_device_info[order_device_info[i]], n, &info);
+
 					if(use_cl_names) {
 						printf("\t\t %s: %s\n", cl_names_device_info[order_device_info[i]], info);
 					} else {
-						printf("\t\t %s: %s\n", names_device_info[order_device_info[i]], info);	
+						printf("\t\t %s: %s\n", names_device_info[order_device_info[i]], info);
 					}
+
 					free(info);
 					break;
 				}
 
 			case t_device_local_mem_type: {
 					char *info;
+
 					if(use_cl_names) {
 						info_bitwise_field(device, fields_device_info[order_device_info[i]], fields_cl_device_local_mem_type, cl_names_cl_device_local_mem_type, count_cl_device_local_mem_type, sizeof(cl_device_local_mem_type), &info);
 						printf("\t\t %s: %s\n", cl_names_device_info[order_device_info[i]], info);
 					} else {
 						info_bitwise_field(device, fields_device_info[order_device_info[i]], fields_cl_device_local_mem_type, names_cl_device_local_mem_type, count_cl_device_local_mem_type, sizeof(cl_device_local_mem_type), &info);
-						printf("\t\t %s: %s\n", names_device_info[order_device_info[i]], info);	
+						printf("\t\t %s: %s\n", names_device_info[order_device_info[i]], info);
 					}
+
 					free(info);
 					break;
 				}
 
 			case t_command_queue_properties: {
 					char *info;
+
 					if(use_cl_names) {
 						info_bitwise_field(device, fields_device_info[order_device_info[i]], fields_cl_command_queue_properties, cl_names_cl_command_queue_properties, count_cl_command_queue_properties, sizeof(cl_command_queue_properties), &info);
 						printf("\t\t %s: %s\n", cl_names_device_info[order_device_info[i]], info);
 					} else {
 						info_bitwise_field(device, fields_device_info[order_device_info[i]], fields_cl_command_queue_properties, names_cl_command_queue_properties, count_cl_command_queue_properties, sizeof(cl_command_queue_properties), &info);
-						printf("\t\t %s: %s\n", names_device_info[order_device_info[i]], info);	
+						printf("\t\t %s: %s\n", names_device_info[order_device_info[i]], info);
 					}
+
 					free(info);
 					break;
 				}
 
 			case t_device_type: {
 					char *info;
+
 					if(use_cl_names) {
 						info_bitwise_field(device, fields_device_info[order_device_info[i]], fields_cl_device_type, cl_names_cl_device_type, count_cl_device_type, sizeof(cl_device_type), &info);
 						printf("\t\t %s: %s\n", cl_names_device_info[order_device_info[i]], info);
 					} else {
 						info_bitwise_field(device, fields_device_info[order_device_info[i]], fields_cl_device_type, names_cl_device_type, count_cl_device_type, sizeof(cl_device_type), &info);
-						printf("\t\t %s: %s\n", names_device_info[order_device_info[i]], info);	
+						printf("\t\t %s: %s\n", names_device_info[order_device_info[i]], info);
 					}
+
 					free(info);
 					break;
 				}
@@ -366,13 +392,13 @@ void show_usage(char *name)
 	printf("OVERVIEW:\n\tGet info about OpenCL platforms/devices\n");
 	printf("USAGE:\n\t%s [option]\n", name);
 	printf("OPTIONS:\n");
-	printf("\t-h, --help\t\tShow this help message\n");
-	printf("\t-np,--num-platforms\tShow number of available platforms\n");
-	printf("\t-nd,--num-devices\tShow number of available devices\n");
-	printf("\t-ps,--platforms\t\tShow info about platforms\n");
-	printf("\t-ds,--devices\t\tShow info about devices\n");
-	printf("\t-pds,--platforms-devices\t\tShow info about platforms and devices\n");
-	printf("\t-cl,--cl-names\t\tShow platform/device fields with cl names.\n");
+	printf("\t-h, --help\t\t\tShow this help message\n");
+	printf("\t-np,--num-platforms\t\tShow number of available platforms\n");
+	printf("\t-nd,--num-devices\t\tShow number of available devices\n");
+	printf("\t-ps,--platforms\t\t\tShow info about platforms\n");
+	printf("\t-ds,--devices\t\t\tShow info about devices\n");
+	printf("\t-pds,--platforms-devices\tShow info about platforms and devices\n");
+	printf("\t-cl,--cl-names\t\t\tShow platform/device fields with cl names\n");
 }
 
 int main(int argc, char *argv[])
@@ -462,7 +488,8 @@ int main(int argc, char *argv[])
 			printf("============\n");
 
 			if(mode == mode_platform_info ||
-			        mode == mode_platform_info_device_count) {
+			        mode == mode_platform_info_device_count ||
+			        mode == mode_full_info) {
 				platform_info(p_ids[i], opt & opt_cl);
 			}
 
@@ -481,9 +508,11 @@ int main(int argc, char *argv[])
 					printf("----------\n");
 					device_info(d_ids[j], opt & opt_cl);
 				}
+
 				free(d_ids);
 			}
 		}
+
 		free(p_ids);
 	}
 

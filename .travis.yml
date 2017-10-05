@@ -2,6 +2,15 @@ language: c
 os: 
   - osx
   - linux
+compiler:
+  - gcc
+  - clang
+addons:
+  apt:
+    packages:
+      - ocl-icd-opencl-dev
+before_install:
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt update; fi
 install: true
 script: 
   - mkdir build && cd build

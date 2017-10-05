@@ -1,11 +1,7 @@
 #ifndef __DATA_H__
 #define __DATA_H__
 
-#if defined(__APPLE__) || defined(__MACOSX)
-	#include <OpenCL/opencl.h>
-#else
-	#include <CL/cl.h>
-#endif
+#include "common.h"
 
 enum {
 	t_uint,

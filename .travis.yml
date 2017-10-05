@@ -1,7 +1,11 @@
-language: cpp
-os: osx
+language: c
+os: 
+  - osx
+  - linux
 install: true
 script: 
   - mkdir build && cd build
   - cmake -G "Unix Makefiles" ..
   - make
+  - make install
+  - oclinfo -pds

@@ -27,3 +27,4 @@ deploy:
   on:
     repo: Galarius/ocl-info
     tags: true
+    condition: "$TRAVIS_OS_NAME = osx && $CC = gcc"

@@ -4,18 +4,18 @@
 #include "common.h"
 
 enum {
-	t_uint,
-	t_bool,
-	t_device_fp_config,
-	t_device_exec_capabilities,
-	t_char,
-	t_ulong,
-	t_device_mem_cache_type,
-	t_size_t,
-	t_size_t_array,
-	t_device_local_mem_type,
-	t_command_queue_properties,
-	t_device_type
+	InfoTypeUInt,
+	InfoTypeBool,
+	InfoTypeFP,
+	InfoTypeExec,
+	InfoTypeChar,
+	InfoTypeULong,
+	InfoTypeMem,
+	InfoTypeSizet,
+	InfoTypeSizets,
+	InfoTypeLocMem,
+	InfoTypeLocQueue,
+	InfoTypeDevice
 };
 
 /* platform info */

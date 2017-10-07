@@ -228,7 +228,7 @@ void device_info(cl_device_id device, int use_cl_names)
 	cl_ulong info_ulong;
 	size_t info_size_t;
 	char *info_char = NULL;
-	char* formats[] = {"%-39s\t:", "%-70s\t:"};
+	char* formats[] = {"%-39s\t:", "%-51s\t:"};
 	char* fmt = NULL;
 	const char* name = NULL;
 	cl_device_info field;
@@ -258,7 +258,6 @@ void device_info(cl_device_id device, int use_cl_names)
 					info_enum_field(device, field, fields_bool, descs_bool, count_bool, &info_char);
 				printf(fmt, name);
 				printf("\t%s\n", info_char);
-				free(info_char);
 				break;
 
 			case InfoTypeFP:
@@ -269,8 +268,7 @@ void device_info(cl_device_id device, int use_cl_names)
 					info_bitwise_field(device, field, fields_fp, descs_fp, n_fp, sizeof(cl_device_fp_config), &info_char);
 				printf(fmt, name); printf("\n");
 				display_separated(info_char, fmt, ";");
-				printf(fmt, "");   printf("\n");
-				free(info_char);
+				printf("\n");
 				break;
 
 			case InfoTypeExec:
@@ -278,9 +276,9 @@ void device_info(cl_device_id device, int use_cl_names)
 					info_bitwise_field(device, field, fields_exec, names_exec, n_exec, sizeof(cl_device_exec_capabilities), &info_char);
 				else
 					info_bitwise_field(device, field, fields_exec, descs_exec, n_exec, sizeof(cl_device_exec_capabilities), &info_char);
-				printf(fmt, name);
-				printf("\t%s\n", info_char);
-				free(info_char);
+				printf(fmt, name); printf("\n");
+				display_separated(info_char, fmt, ";");
+				printf("\n");
 				break;
 
 			case InfoTypeChar:
@@ -288,12 +286,11 @@ void device_info(cl_device_id device, int use_cl_names)
 				if(field == CL_DEVICE_EXTENSIONS) {
 					printf(fmt, name); printf("\n");
 					display_separated(info_char, fmt, " ");
-					printf(fmt, "");   printf("\n");
+					printf("\n");
 				} else {
 					printf(fmt, name);
 					printf("\t%s\n", info_char);
 				}
-				free(info_char);
 				break;
 
 			case InfoTypeULong:
@@ -309,7 +306,6 @@ void device_info(cl_device_id device, int use_cl_names)
 					info_enum_field(device, field, fields_mem, descs_mem, n_mem, &info_char);
 				printf(fmt, name);
 				printf("\t%s\n", info_char);
-				free(info_char);
 				break;
 
 			case InfoTypeSizet:
@@ -322,7 +318,6 @@ void device_info(cl_device_id device, int use_cl_names)
 				device_info_size_t_array(device, field, info_uint, &info_char);
 				printf(fmt, name);
 				printf("\t%s\n", info_char);
-				free(info_char);
 				break;
 
 			case InfoTypeLocMem:
@@ -332,7 +327,6 @@ void device_info(cl_device_id device, int use_cl_names)
 					info_bitwise_field(device, field, fields_loc_mem, descs_loc_mem, n_loc_mem, sizeof(cl_device_local_mem_type), &info_char);
 				printf(fmt, name);
 				printf("\t%s\n", info_char);
-				free(info_char);
 				break;
 
 			case InfoTypeLocQueue:
@@ -342,7 +336,6 @@ void device_info(cl_device_id device, int use_cl_names)
 					info_bitwise_field(device, field, fields_queue, descs_queue, n_queue, sizeof(cl_command_queue_properties), &info_char);
 				printf(fmt, name);
 				printf("\t%s\n", info_char);
-				free(info_char);
 				break;
 
 			case InfoTypeDevice:
@@ -352,9 +345,12 @@ void device_info(cl_device_id device, int use_cl_names)
 					info_bitwise_field(device, field, fields_device_type, descs_device_type, n_device_type, sizeof(cl_device_type), &info_char);
 				printf(fmt, name);
 				printf("\t%s\n", info_char);
-				free(info_char);
 				break;
 		}
+	}
+	if(info_char) {
+		free(info_char);
+		info_char = NULL;
 	}
 }
 

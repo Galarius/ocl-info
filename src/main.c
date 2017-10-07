@@ -84,10 +84,10 @@ void platform_info(cl_platform_id platform, const char **names)
 {
 	char *info;
 	cl_uint i = 0;
-	for(; i < count_platform_info; ++i) {
-		platform_field(platform, fields_platform_info[order_platform_info[i]], &info);
-		if(fields_platform_info[order_platform_info[i]] == CL_PLATFORM_EXTENSIONS) {
-			printf("%-22s\t:\n", names[order_platform_info[4]]);
+	for(; i < n_pinfo; ++i) {
+		platform_field(platform, fields_pinfo[order_pinfo[i]], &info);
+		if(fields_pinfo[order_pinfo[i]] == CL_PLATFORM_EXTENSIONS) {
+			printf("%-22s\t:\n", names[order_pinfo[4]]);
 			char *pch = strtok(info, " ");
 			while (pch != NULL) {
 				  printf("%-22s\t:\t%s\n","", pch);
@@ -95,7 +95,7 @@ void platform_info(cl_platform_id platform, const char **names)
 			}
 			printf("%-22s\t:\t\n", "");
 		} else {
-			printf("%-22s\t:\t%s\n", names[order_platform_info[i]], info);
+			printf("%-22s\t:\t%s\n", names[order_pinfo[i]], info);
 		}
 		free(info);
 	}
@@ -233,18 +233,18 @@ void device_info(cl_device_id device, int use_cl_names)
 	const char* name = NULL;
 	cl_device_info field;
 
-	for(; i < count_device_info; ++i) {
+	for(; i < n_dinfo; ++i) {
 
-		field = fields_device_info[order_device_info[i]];
+		field = fields_dinfo[order_dinfo[i]];
 		if(use_cl_names) {
-			name = cl_names_device_info[order_device_info[i]];
+			name = names_dinfo[order_dinfo[i]];
 			fmt = formats[0];
 		} else {
-			name = names_device_info[order_device_info[i]];
+			name = descs_dinfo[order_dinfo[i]];
 			fmt = formats[1];
 		}
 
-		switch(types_device_info[order_device_info[i]]) {
+		switch(types_dinfo[order_dinfo[i]]) {
 			case InfoTypeUInt:
 				clGetDeviceInfo(device, field, sizeof(cl_uint), &info_uint, NULL);
 				printf(fmt, name);
@@ -253,9 +253,9 @@ void device_info(cl_device_id device, int use_cl_names)
 
 			case InfoTypeBool:
 				if(use_cl_names)
-					info_enum_field(device, field, fields_cl_bool, cl_names_cl_bool, count_cl_bool, &info_char);
+					info_enum_field(device, field, fields_bool, names_bool, count_bool, &info_char);
 				else 
-					info_enum_field(device, field, fields_cl_bool, names_cl_bool, count_cl_bool, &info_char);
+					info_enum_field(device, field, fields_bool, descs_bool, count_bool, &info_char);
 				printf(fmt, name);
 				printf("\t%s\n", info_char);
 				free(info_char);
@@ -264,9 +264,9 @@ void device_info(cl_device_id device, int use_cl_names)
 			case InfoTypeFP:
 
 				if(use_cl_names)
-					info_bitwise_field(device, field, fields_cl_device_fp_config, cl_names_cl_device_fp_config, count_cl_device_fp_config, sizeof(cl_device_fp_config), &info_char);
+					info_bitwise_field(device, field, fields_fp, names_fp, n_fp, sizeof(cl_device_fp_config), &info_char);
 				else
-					info_bitwise_field(device, field, fields_cl_device_fp_config, names_cl_device_fp_config, count_cl_device_fp_config, sizeof(cl_device_fp_config), &info_char);
+					info_bitwise_field(device, field, fields_fp, descs_fp, n_fp, sizeof(cl_device_fp_config), &info_char);
 				printf(fmt, name); printf("\n");
 				display_separated(info_char, fmt, ";");
 				printf(fmt, "");   printf("\n");
@@ -275,9 +275,9 @@ void device_info(cl_device_id device, int use_cl_names)
 
 			case InfoTypeExec:
 				if(use_cl_names)
-					info_bitwise_field(device, field, fields_cl_device_exec_capabilities, cl_names_cl_device_exec_capabilities, count_cl_device_exec_capabilities, sizeof(cl_device_exec_capabilities), &info_char);
+					info_bitwise_field(device, field, fields_exec, names_exec, n_exec, sizeof(cl_device_exec_capabilities), &info_char);
 				else
-					info_bitwise_field(device, field, fields_cl_device_exec_capabilities, names_cl_device_exec_capabilities, count_cl_device_exec_capabilities, sizeof(cl_device_exec_capabilities), &info_char);
+					info_bitwise_field(device, field, fields_exec, descs_exec, n_exec, sizeof(cl_device_exec_capabilities), &info_char);
 				printf(fmt, name);
 				printf("\t%s\n", info_char);
 				free(info_char);
@@ -304,9 +304,9 @@ void device_info(cl_device_id device, int use_cl_names)
 
 			case InfoTypeMem:
 				if(use_cl_names)
-					info_enum_field(device, field, fields_cl_device_mem_cache_type, cl_names_cl_device_mem_cache_type, count_cl_device_mem_cache_type, &info_char);
+					info_enum_field(device, field, fields_mem, names_mem, n_mem, &info_char);
 				else
-					info_enum_field(device, field, fields_cl_device_mem_cache_type, names_cl_device_mem_cache_type, count_cl_device_mem_cache_type, &info_char);
+					info_enum_field(device, field, fields_mem, descs_mem, n_mem, &info_char);
 				printf(fmt, name);
 				printf("\t%s\n", info_char);
 				free(info_char);
@@ -327,9 +327,9 @@ void device_info(cl_device_id device, int use_cl_names)
 
 			case InfoTypeLocMem:
 				if(use_cl_names)
-					info_bitwise_field(device, field, fields_cl_device_local_mem_type, cl_names_cl_device_local_mem_type, count_cl_device_local_mem_type, sizeof(cl_device_local_mem_type), &info_char);
+					info_bitwise_field(device, field, fields_loc_mem, names_loc_mem, n_loc_mem, sizeof(cl_device_local_mem_type), &info_char);
 				else
-					info_bitwise_field(device, field, fields_cl_device_local_mem_type, names_cl_device_local_mem_type, count_cl_device_local_mem_type, sizeof(cl_device_local_mem_type), &info_char);
+					info_bitwise_field(device, field, fields_loc_mem, descs_loc_mem, n_loc_mem, sizeof(cl_device_local_mem_type), &info_char);
 				printf(fmt, name);
 				printf("\t%s\n", info_char);
 				free(info_char);
@@ -337,9 +337,9 @@ void device_info(cl_device_id device, int use_cl_names)
 
 			case InfoTypeLocQueue:
 				if(use_cl_names)
-					info_bitwise_field(device, field, fields_cl_command_queue_properties, cl_names_cl_command_queue_properties, count_cl_command_queue_properties, sizeof(cl_command_queue_properties), &info_char);
+					info_bitwise_field(device, field, fields_queue, names_queue, n_queue, sizeof(cl_command_queue_properties), &info_char);
 				else
-					info_bitwise_field(device, field, fields_cl_command_queue_properties, names_cl_command_queue_properties, count_cl_command_queue_properties, sizeof(cl_command_queue_properties), &info_char);
+					info_bitwise_field(device, field, fields_queue, descs_queue, n_queue, sizeof(cl_command_queue_properties), &info_char);
 				printf(fmt, name);
 				printf("\t%s\n", info_char);
 				free(info_char);
@@ -347,9 +347,9 @@ void device_info(cl_device_id device, int use_cl_names)
 
 			case InfoTypeDevice:
 				if(use_cl_names)
-					info_bitwise_field(device, field, fields_cl_device_type, cl_names_cl_device_type, count_cl_device_type, sizeof(cl_device_type), &info_char);
+					info_bitwise_field(device, field, fields_device_type, names_device_type, n_device_type, sizeof(cl_device_type), &info_char);
 				else
-					info_bitwise_field(device, field, fields_cl_device_type, names_cl_device_type, count_cl_device_type, sizeof(cl_device_type), &info_char);
+					info_bitwise_field(device, field, fields_device_type, descs_device_type, n_device_type, sizeof(cl_device_type), &info_char);
 				printf(fmt, name);
 				printf("\t%s\n", info_char);
 				free(info_char);
@@ -470,9 +470,9 @@ int main(int argc, char *argv[])
 			        mode == mode_platform_info_device_count ||
 			        mode == mode_full_info) {
 				if(opt & opt_cl) {
-					platform_info(p_ids[i], cl_names_platform_info);
+					platform_info(p_ids[i], names_pinfo);
 				} else {
-					platform_info(p_ids[i], names_platform_info);
+					platform_info(p_ids[i], descs_pinfo);
 				}
 			}
 

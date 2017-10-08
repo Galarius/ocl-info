@@ -21,6 +21,8 @@ enum {
 	InfoTypeDevice
 };
 
+#define INFO_SPACE 0xFFF
+
 /* platform info */
 extern const cl_platform_info fields_pinfo[];
 extern const char *names_pinfo[];

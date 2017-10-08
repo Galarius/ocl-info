@@ -40,7 +40,6 @@ void display_separated(char* str, const char* fmt, char sep[])
 		  printf("\t%s\n", pch);
 		  pch = strtok (NULL, sep);
 	}
-	printf(fmt, "");
 }
 
 /*----------------------------------------------------------------------------*/
@@ -209,7 +208,7 @@ void device_info_size_t_array(cl_device_id id, cl_device_info field, cl_uint n, 
 	clGetDeviceInfo(id, field, sizeof(size_t) * n, value, NULL);
 
 	for(; i < n; ++i) {
-		memset(tmp, 0, sizeof(tmp)/sizeof(tmp[0]));
+		memset(tmp, 0, sizeof(tmp) / sizeof(tmp[0]));
 		sprintf(tmp, "%zu", value[i]);
 		strcat(*ret_info, tmp);
 
@@ -224,6 +223,7 @@ void device_info_size_t_array(cl_device_id id, cl_device_info field, cl_uint n, 
 void device_info(cl_device_id device, int use_cl_names)
 {
 	cl_uint i = 0;
+	cl_uint idx = 0;
 	cl_uint info_uint;
 	cl_ulong info_ulong;
 	size_t info_size_t;
@@ -234,17 +234,23 @@ void device_info(cl_device_id device, int use_cl_names)
 	cl_device_info field;
 
 	for(; i < n_dinfo; ++i) {
+		idx = order_dinfo[i];
+		field = fields_dinfo[idx];
 
-		field = fields_dinfo[order_dinfo[i]];
+		if(field == INFO_SPACE)
+		{
+			printf("\n\n");
+		}
+
 		if(use_cl_names) {
-			name = names_dinfo[order_dinfo[i]];
+			name = names_dinfo[idx];
 			fmt = formats[0];
 		} else {
-			name = descs_dinfo[order_dinfo[i]];
+			name = descs_dinfo[idx];
 			fmt = formats[1];
 		}
 
-		switch(types_dinfo[order_dinfo[i]]) {
+		switch(types_dinfo[idx]) {
 			case InfoTypeUInt:
 				clGetDeviceInfo(device, field, sizeof(cl_uint), &info_uint, NULL);
 				printf(fmt, name);
@@ -268,7 +274,6 @@ void device_info(cl_device_id device, int use_cl_names)
 					info_bitwise_field(device, field, fields_fp, descs_fp, n_fp, sizeof(cl_device_fp_config), &info_char);
 				printf(fmt, name); printf("\n");
 				display_separated(info_char, fmt, ";");
-				printf("\n");
 				break;
 
 			case InfoTypeExec:
@@ -278,7 +283,6 @@ void device_info(cl_device_id device, int use_cl_names)
 					info_bitwise_field(device, field, fields_exec, descs_exec, n_exec, sizeof(cl_device_exec_capabilities), &info_char);
 				printf(fmt, name); printf("\n");
 				display_separated(info_char, fmt, ";");
-				printf("\n");
 				break;
 
 			case InfoTypeChar:
@@ -286,7 +290,6 @@ void device_info(cl_device_id device, int use_cl_names)
 				if(field == CL_DEVICE_EXTENSIONS) {
 					printf(fmt, name); printf("\n");
 					display_separated(info_char, fmt, " ");
-					printf("\n");
 				} else {
 					printf(fmt, name);
 					printf("\t%s\n", info_char);

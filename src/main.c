@@ -133,7 +133,7 @@ void info_bitwise_field(cl_device_id id, cl_device_info field,
 	unsigned long long value;
 	size_t i = 0;
 	size_t len = 0;
-	*ret_info = (char *)malloc(sizeof(char) * sum_len(names, count) + count * strlen(sep) + 1);
+	*ret_info = calloc(sum_len(names, count) + count * strlen(sep) + 1, sizeof(char));
 
 	if(!*ret_info) {
 		fprintf(stderr, "malloc failed!\n");
@@ -196,7 +196,7 @@ void device_info_char(cl_device_id id, cl_device_info field, char **ret_info)
 void device_info_size_t_array(cl_device_id id, cl_device_info field, cl_uint n, char **ret_info)
 {
 	size_t *value = malloc(sizeof(size_t) * n);
-	*ret_info = malloc(sizeof(char) * n * 3 + 1);
+	*ret_info = calloc(n * 4 + 7, sizeof(char));
 	cl_uint i = 0;
 	char tmp[16];
 
@@ -209,7 +209,16 @@ void device_info_size_t_array(cl_device_id id, cl_device_info field, cl_uint n, 
 
 	for(; i < n; ++i) {
 		memset(tmp, 0, sizeof(tmp) / sizeof(tmp[0]));
+
+#if defined(Win32)
+#if _MSC_VER >= 1900
 		sprintf(tmp, "%zu", value[i]);
+	#else
+		sprintf(tmp, "%u", (unsigned)value[i]);
+	#endif		
+#else
+		sprintf(tmp, "%zu", value[i]);
+#endif
 		strcat(*ret_info, tmp);
 
 		if(i < n - 1) {
@@ -240,6 +249,7 @@ void device_info(cl_device_id device, int use_cl_names)
 		if(field == INFO_SPACE)
 		{
 			printf("\n\n");
+			continue;
 		}
 
 		if(use_cl_names) {
@@ -314,7 +324,15 @@ void device_info(cl_device_id device, int use_cl_names)
 			case InfoTypeSizet:
 				clGetDeviceInfo(device, field, sizeof(size_t), &info_size_t, NULL);
 				printf(fmt, name);
+#if defined(Win32)
+#if _MSC_VER >= 1900
 				printf("\t%zu\n", info_size_t);
+#else
+				printf("\t%u\n", (unsigned)info_size_t);
+#endif		
+#else
+				printf("\t%zu\n", info_size_t);
+#endif
 				break;
 			case InfoTypeSizets:
 				clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_ITEM_DIMENSIONS, sizeof(cl_uint), &info_uint, NULL);
@@ -350,10 +368,10 @@ void device_info(cl_device_id device, int use_cl_names)
 				printf("\t%s\n", info_char);
 				break;
 		}
-	}
-	if(info_char) {
-		free(info_char);
-		info_char = NULL;
+		if (info_char) {
+			free(info_char);
+			info_char = NULL;
+		}
 	}
 }
 
